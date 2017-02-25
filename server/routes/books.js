@@ -48,27 +48,43 @@ router.post('/add', (req, res, next) => {
         res.redirect('/books')
     }
   });
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
 });
 
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
-
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+let id = req.params.id;
+  book.findById(id, (err, books) => {
+    if (err) {
+      console.error(err);
+      res.end(error);
+    } else {
+        res.render('books/details', {
+          title: 'Edit Book',
+          books: books });
+    }
+  });
 });
 
 // POST - process the information passed from the details form and update the document
-router.post('/:id', (req, res, next) => {
+router.post('/:id', (req, res, next) => { 
+  let id = req.params.id;
+  let editedBook = new book({
+    "_id": id,
+    "Title": req.body.title,
+    "Description": '',
+    "Price": req.body.price,
+    "Author": req.body.author,
+    "Genre": req.body.genre
+  });
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+  book.update({_id: id}, editedBook, (err) => {
+    if (err) {
+      console.error(err);
+      res.end(error);
+    } else {
+        res.redirect('/books')
+    }
+  });
 });
 
 // GET - process the delete by user id
