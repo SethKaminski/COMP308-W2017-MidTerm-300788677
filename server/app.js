@@ -61,7 +61,7 @@ app.use('/', index);
 app.use('/books', books);
 
 // passport user config
-let UserModel = require('./models/user');
+let UserModel = require('./models/users');
 let User = UserModel.User;
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
